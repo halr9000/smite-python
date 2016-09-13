@@ -25,6 +25,7 @@ SOFTWARE.
 from . import __version__ as version
 from .connection import HTTPClient
 from .data import Data
+from .god import God
 
 
 class Client:
@@ -61,3 +62,17 @@ class Client:
         url = self.http.build_request_url('getdataused')
         r = self.http.make_request(url)
         return Data(**r[0])
+
+    def get_gods(self):
+        """
+        Gets a list of all Smite gods and their various attributes
+
+        Returns
+        -------
+        list of :class:`God`
+            All Smite gods returned by the API
+        """
+        url = self.http.build_request_url('getgods', params=[self.lang])
+        r = self.http.make_request(url)
+        gods = [God(**x) for x in r]
+        return gods

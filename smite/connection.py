@@ -37,7 +37,7 @@ class HTTPClient:
 
     Parameters
     ----------
-    smite : :class:Client
+    smite : :class:`Client`
         An initialized Client class
     """
 
