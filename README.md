@@ -4,10 +4,6 @@
 
 Simple wrapper around Smite's API, allowing basic functionality and the ability to make various calls. All method calls will return as a `JSON` string which can then be iterated over.
 
-## Prerequisites
-- Python 3.5
-- `smite-python` uses libraries that **should** come packaged with Python
-
 ## Documentation
 Documentation is available on [Read The Docs](http://smite-python.readthedocs.io/en/latest/), which shows all available methods and how to use them.
 
