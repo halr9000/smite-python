@@ -96,3 +96,31 @@ class Client:
         r = self.http.make_request(url)
         skins = [Skin(**x) for x in r]
         return skins
+
+    def get_god(self, name=None, id=None):
+        """
+        Gets a :class:`God` object based on given arguments
+
+        Parameters
+        ----------
+        One of the two parameters below must be passed
+
+        name : str
+            [Optional] The name of the god
+        id : int
+            [Optional] The ID of the god
+
+        Returns
+        -------
+        :class:`God`
+            The God requested
+        """
+        if not name and not id:
+            return None  # TODO: raise exception
+        gods = self.get_gods()
+        for g in gods:
+            if name and g.name.lower() == name.lower():
+                return g
+            if id and g.id == int(id):
+                return g
+        return None  # TODO: raise exception
