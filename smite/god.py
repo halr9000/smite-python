@@ -56,9 +56,9 @@ class God:
         The abilities that the god has
     basic_attack : :class:`BasicAttack`
         The basic attack that the god has
-    god_card_url : str
+    card_url : str
         The URL for the god's card
-    god_icon_url : str
+    icon_url : str
         The URL for the god's icon
 
     Representation
@@ -91,8 +91,8 @@ class God:
         self.abilities = [Ability(**x) for x in abilities]
 
         self.basic_attack = BasicAttack(**kwargs)
-        self.god_card_url = kwargs.get('godCard_URL')
-        self.god_icon_url = kwargs.get('godIcon_URL')
+        self.card_url = kwargs.get('godCard_URL')
+        self.icon_url = kwargs.get('godIcon_URL')
 
     def __repr__(self):
         return self.name

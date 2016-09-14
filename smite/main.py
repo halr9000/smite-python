@@ -26,6 +26,7 @@ from . import __version__ as version
 from .connection import HTTPClient
 from .data import Data
 from .god import God
+from .skin import Skin
 
 
 class Client:
@@ -76,3 +77,22 @@ class Client:
         r = self.http.make_request(url)
         gods = [God(**x) for x in r]
         return gods
+
+    def get_god_skins(self, god_id):
+        """
+        Gets a list of all of a god's available skins
+
+        Parameters
+        ----------
+        god_id : str
+            The ID of the god to query
+
+        Returns
+        -------
+        list of :class:`Skin`
+            All god skins returned by the API
+        """
+        url = self.http.build_request_url('getgodskins', params=[god_id, self.lang])
+        r = self.http.make_request(url)
+        skins = [Skin(**x) for x in r]
+        return skins

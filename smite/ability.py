@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 class BasicAttack:
+
     """
     Represents a Smite basic attack
 
