@@ -79,6 +79,10 @@ class Ability:
         The type of ability it is. Could be None
     radius : str
         The radius the ability has. Could be None
+    slow : str
+        The slow amount that the ability adds. Could be None
+    slow_duration : str
+        The slow duration for the ability. Could be None
 
     Representation
     --------------
@@ -122,6 +126,10 @@ class Ability:
         for i in description['rankitems']:
             if 'damage per tick' in i['description'].lower():
                 self.damage_per_tick = i['value']
+            elif 'slow amount' in i['description'].lower():
+                self.slow = i['value'].strip()
+            elif 'slow duration' in i['description'].lower():
+                self.slow_duration = i['value']
 
     def __repr__(self):
         return self.name
