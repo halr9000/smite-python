@@ -23,6 +23,31 @@ SOFTWARE.
 """
 
 
+class BasicAttack:
+    """
+    Represents a Smite basic attack
+
+    Attributes
+    ----------
+    damage : str
+        The damage that each basic attack does
+    progression : str
+        The progression tree for the basic attack. Could be None
+    """
+
+    def __init__(self, **kwargs):
+        self.damage = None
+        self.progression = None
+
+        description = kwargs.get('basicAttack')['itemDescription']
+        for i in description['menuitems']:
+            if 'damage' in i['description'].lower():
+                self.damage = i['value']
+            elif 'progression' in i['description'].lower():
+                if i['value'].lower() != 'None':
+                    self.progression = i['value']
+
+
 class Ability:
 
     """

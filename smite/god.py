@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .ability import Ability
+from .ability import Ability, BasicAttack
 
 
 class God:
@@ -54,6 +54,12 @@ class God:
         The stats that the god has
     abilities : list of :class:`Ability`
         The abilities that the god has
+    basic_attack : :class:`BasicAttack`
+        The basic attack that the god has
+    god_card_url : str
+        The URL for the god's card
+    god_icon_url : str
+        The URL for the god's icon
 
     Representation
     --------------
@@ -83,6 +89,10 @@ class God:
         abilities = [kwargs.get('Ability_1'), kwargs.get('Ability_2'), kwargs.get(
             'Ability_3'), kwargs.get('Ability_4'), kwargs.get('Ability_5')]
         self.abilities = [Ability(**x) for x in abilities]
+
+        self.basic_attack = BasicAttack(**kwargs)
+        self.god_card_url = kwargs.get('godCard_URL')
+        self.god_icon_url = kwargs.get('godIcon_URL')
 
     def __repr__(self):
         return self.name
@@ -119,6 +129,10 @@ class GodStats:
         God's physical protection
     physical_protection_per_level : int
         God's physical protection per level
+    attack_speed : int
+        God's attack speed
+    attack_speed_per_level : int
+        God's attack speed per level
     """
 
     def __init__(self, **kwargs):
@@ -134,6 +148,8 @@ class GodStats:
         self.magical_protection_per_level = kwargs.get('MagicProtectionPerLevel')
         self.physical_protection = kwargs.get('PhysicalProtection')
         self.physical_protection_per_level = kwargs.get('PhysicalProtectionPerLevel')
+        self.attack_speed = kwargs.get('AttackSpeed')
+        self.attack_speed_per_level = kwargs.get('AttackSpeedPerLevel')
 
 
 class PhysicalGodStats(GodStats):
