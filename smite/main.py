@@ -27,6 +27,7 @@ from .connection import HTTPClient
 from .data import Data
 from .god import God
 from .skin import Skin
+from .error import MissingArgument, NoResult
 
 
 class Client:
@@ -114,13 +115,20 @@ class Client:
         -------
         :class:`God`
             The God requested
+
+        Raises
+        ------
+        :class:`MissingArgument`
+            A name or ID was not provided
+        :class:`NoResult`
+            No god was found with given arguments
         """
         if not name and not id:
-            return None  # TODO: raise exception
+            raise MissingArgument("A name or ID was not provided")
         gods = self.get_gods()
         for g in gods:
             if name and g.name.lower() == name.lower():
                 return g
             if id and g.id == int(id):
                 return g
-        return None  # TODO: raise exception
+        raise NoResult("No god was found with given arguments")

@@ -29,6 +29,8 @@ import hashlib
 import datetime
 import requests
 
+from .error import HTTPError
+
 
 class HTTPClient:
 
@@ -89,9 +91,7 @@ class HTTPClient:
         if method == 'GET':
             r = requests.get(url)
             if r.status_code != 200:
-                print("Houston, we have a problem.")
-                print(r.status_code)
-                return
+                raise HTTPError("GET request failed with status code {} [{}]".format(r.status_code, url))
             if 'application/json' in r.headers['content-type']:
                 return r.json()
             else:
