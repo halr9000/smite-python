@@ -53,3 +53,16 @@ class Player:
 
     def __repr__(self):
         return self.name
+
+
+class PlayerInfo(Player):
+
+    """
+    Represents a Smite player with additional information
+
+    This class is a subclass of :class:`Player`
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.status = kwargs.get('Personal_Status_Message')

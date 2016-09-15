@@ -31,7 +31,7 @@ from .god import God
 from .skin import Skin
 from .error import NoResult
 from .item import Item
-from .player import Player
+from .player import Player, PlayerInfo
 
 
 class Client:
@@ -180,7 +180,7 @@ class Client:
 
     def get_player(self, player):
         """
-        Returns the :class:`Player` object for a player
+        Returns the :class:`PlayerInfo` object for a player
 
         Parameters
         ----------
@@ -189,7 +189,7 @@ class Client:
 
         Returns
         -------
-        :class:`Player`
+        :class:`PlayerInfo`
             The player
 
         Raises
@@ -199,7 +199,7 @@ class Client:
         """
         url = self.http.build_request_url('getplayer', params=[player])
         r = self.http.make_request(url)
-        return Player(**r[0])
+        return PlayerInfo(**r[0])
 
     def get_friends(self, user):
         """
@@ -207,7 +207,7 @@ class Client:
 
         Parameters
         ----------
-        user : str or int or :class:`Player`
+        user : str or int or :class:`PlayerInfo`
             The player to check
 
         Returns
@@ -215,7 +215,7 @@ class Client:
         list of :class:`Player`
             A list of the player's friend
         """
-        if type(user) == Player:
+        if type(user) == PlayerInfo:
             # Remove brackets if user is in a clan
             user = re.sub("[\(\[].*?[\)\]]", "", user.name)
         print

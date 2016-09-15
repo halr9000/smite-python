@@ -157,7 +157,7 @@ class PhysicalGodStats(GodStats):
     """
     Represents a physical Smite god's stats
 
-    Inherits :class:`GodStats`
+    This class is a subclass of :class:`GodStats`
 
     Attributes
     ----------
@@ -168,6 +168,7 @@ class PhysicalGodStats(GodStats):
     """
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.physical_power = kwargs.get('PhysicalPower')
         self.physical_power_per_level = kwargs.get('PhysicalPowerPerLevel')
 
@@ -177,7 +178,7 @@ class MagicalGodStats(GodStats):
     """
     Represents a magical Smite god's stats
 
-    Inherits :class:`GodStats`
+    This class is a subclass of :class:`GodStats`
 
     Attributes
     ----------
@@ -188,5 +189,6 @@ class MagicalGodStats(GodStats):
     """
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.magical_power = kwargs.get('MagicalPower')
         self.magical_power_per_level = kwargs.get('MagicalPowerPerLevel')
