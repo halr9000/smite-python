@@ -147,3 +147,38 @@ class Client:
         r = self.http.make_request(url)
         items = [Item(**x) for x in r]
         return items
+
+    def get_item(self, name=None, id=None):
+        """
+        Gets a :class:`Item` object based on given arguments
+
+        Parameters
+        ----------
+        One of the two parameters below must be passed
+
+        name : str
+            [Optional] The name of the item
+        id : int
+            [Optional] The ID of the item
+
+        Returns
+        -------
+        :class:`Item`
+            The Item requested
+
+        Raises
+        ------
+        :class:`MissingArgument`
+            A name or ID was not provided
+        :class:`NoResult`
+            No item was found with given arguments
+        """
+        if not name and not id:
+            raise MissingArgument("A name or ID was not provided")
+        items = self.get_items()
+        for i in items:
+            if name and i.name.lower() == name.lower():
+                return i
+            if id and i.id == int(id):
+                return i
+        raise NoResult("No item was found with given arguments")
