@@ -28,6 +28,7 @@ from .data import Data
 from .god import God
 from .skin import Skin
 from .error import MissingArgument, NoResult
+from .item import Item
 
 
 class Client:
@@ -132,3 +133,17 @@ class Client:
             if id and g.id == int(id):
                 return g
         raise NoResult("No god was found with given arguments")
+
+    def get_items(self):
+        """
+        Gets a list of all Smite items and their various attributes
+
+        Returns
+        -------
+        list of :class:`Item`
+            All Smite items returned by the API
+        """
+        url = self.http.build_request_url('getitems', params=[self.lang])
+        r = self.http.make_request(url)
+        items = [Item(**x) for x in r]
+        return items
