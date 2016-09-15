@@ -22,13 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import re
+
 from . import __version__ as version
 from .connection import HTTPClient
 from .data import Data
 from .god import God
 from .skin import Skin
-from .error import MissingArgument, NoResult
+from .error import NoResult
 from .item import Item
+from .player import Player
 
 
 class Client:
@@ -86,7 +89,7 @@ class Client:
 
         Parameters
         ----------
-        god_id : str
+        god_id : int
             The ID of the god to query
 
         Returns
@@ -94,12 +97,12 @@ class Client:
         list of :class:`Skin`
             All god skins returned by the API
         """
-        url = self.http.build_request_url('getgodskins', params=[god_id, self.lang])
+        url = self.http.build_request_url('getgodskins', params=[str(god_id), self.lang])
         r = self.http.make_request(url)
         skins = [Skin(**x) for x in r]
         return skins
 
-    def get_god(self, name=None, id=None):
+    def get_god(self, god):
         """
         Gets a :class:`God` object based on given arguments
 
@@ -107,31 +110,27 @@ class Client:
         ----------
         One of the two parameters below must be passed
 
-        name : str
-            [Optional] The name of the god
-        id : int
-            [Optional] The ID of the god
+        god : str or int
+            The god to retrieve
 
         Returns
         -------
         :class:`God`
-            The God requested
+            The god requested
 
         Raises
         ------
-        :class:`MissingArgument`
-            A name or ID was not provided
         :class:`NoResult`
             No god was found with given arguments
         """
-        if not name and not id:
-            raise MissingArgument("A name or ID was not provided")
         gods = self.get_gods()
-        for g in gods:
-            if name and g.name.lower() == name.lower():
-                return g
-            if id and g.id == int(id):
-                return g
+        for i in gods:
+            if type(god) == str:
+                if god and i.name.lower() == god.lower():
+                    return i
+            elif type(god) == int:
+                if god and i.id == int(id):
+                    return i
         raise NoResult("No god was found with given arguments")
 
     def get_items(self):
@@ -148,7 +147,7 @@ class Client:
         items = [Item(**x) for x in r]
         return items
 
-    def get_item(self, name=None, id=None):
+    def get_item(self, item):
         """
         Gets a :class:`Item` object based on given arguments
 
@@ -156,10 +155,8 @@ class Client:
         ----------
         One of the two parameters below must be passed
 
-        name : str
-            [Optional] The name of the item
-        id : int
-            [Optional] The ID of the item
+        item : str or int
+            The item name or ID
 
         Returns
         -------
@@ -168,17 +165,61 @@ class Client:
 
         Raises
         ------
-        :class:`MissingArgument`
-            A name or ID was not provided
         :class:`NoResult`
             No item was found with given arguments
         """
-        if not name and not id:
-            raise MissingArgument("A name or ID was not provided")
         items = self.get_items()
         for i in items:
-            if name and i.name.lower() == name.lower():
-                return i
-            if id and i.id == int(id):
-                return i
+            if type(item) == str:
+                if item and i.name.lower() == item.lower():
+                    return i
+            elif type(item) == int:
+                if item and i.id == int(id):
+                    return i
         raise NoResult("No item was found with given arguments")
+
+    def get_player(self, player):
+        """
+        Returns the :class:`Player` object for a player
+
+        Parameters
+        ----------
+        player : str or int
+            The player to get the object for
+
+        Returns
+        -------
+        :class:`Player`
+            The player
+
+        Raises
+        ------
+        :class:`NoResult`
+            No item was found with given arguments
+        """
+        url = self.http.build_request_url('getplayer', params=[player])
+        r = self.http.make_request(url)
+        return Player(**r[0])
+
+    def get_friends(self, user):
+        """
+        Returns the friends of a player
+
+        Parameters
+        ----------
+        user : str or int or :class:`Player`
+            The player to check
+
+        Returns
+        -------
+        list of :class:`Player`
+            A list of the player's friend
+        """
+        if type(user) == Player:
+            # Remove brackets if user is in a clan
+            user = re.sub("[\(\[].*?[\)\]]", "", user.name)
+        print
+        url = self.http.build_request_url('getfriends', params=[user])
+        r = self.http.make_request(url)
+        friends = [Player(**x) for x in r]
+        return friends

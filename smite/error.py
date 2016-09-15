@@ -8,15 +8,6 @@ class SmiteException(Exception):
     pass
 
 
-class MissingArgument(SmiteException):
-
-    """
-    Raised when an argument is missing
-    """
-
-    pass
-
-
 class NoResult(SmiteException):
 
     """
